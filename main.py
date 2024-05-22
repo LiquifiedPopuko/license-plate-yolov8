@@ -30,11 +30,10 @@ for detection in detections[0].boxes.data.tolist():
    #process license plate
    license_plate = cv2.cvtColor(license_plate, cv2.COLOR_BGR2GRAY)
    
-   print(str(util.read_license_plate(license_plate)))
-
+   result = util.read_license_plate(license_plate)
+   print(str(result))
    #save crop
    cv2.imwrite(img_path, license_plate)
-   print('done')
 
-#read license plate number
+
 #write results
