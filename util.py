@@ -13,6 +13,7 @@ def read_license_plate(license_plate):
    for detection in detections:
       results.append(detection[1])
 
+   print("Detected:"+str(results))
    # match province
    results[1] = match_province(results[1])
 
