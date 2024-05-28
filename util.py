@@ -3,10 +3,20 @@ from thefuzz import process
 import datetime
 import requests
 import re
+import os
 
 # be mindful of gpu
 reader = easyocr.Reader(['th'], gpu=False)
 url = 'todo.com'
+
+# change file name and folder
+def process_image(license_plate):
+    predict_path = './runs/detect/predict/'
+    current_date = datetime.now().strftime("%Y%m%dT%H%M%S")
+    # rename file
+    os.rename(predict_path+'image0.jpg', predict_path+license_plate+'_'+current_date+'.jpg')
+    # rename folder
+    os.rename(predict_path, './runs/detect/'+current_date)
 
 # todo
 def check_database():
@@ -37,7 +47,6 @@ def read_license_plate(license_plate):
                 results[1] = match_province(detection[1])
 
    print("Detected:"+str(results))
-
    return results
 
 # todo
