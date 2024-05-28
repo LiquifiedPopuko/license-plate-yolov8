@@ -1,6 +1,6 @@
 import easyocr
 from thefuzz import process
-import datetime
+from datetime import datetime
 import requests
 import re
 import os
@@ -35,7 +35,7 @@ def read_license_plate(license_plate):
         print("Score = "+str(detection[2]))
         # Must NOT have more than 15 characters
         if len(detection[1]) <= 15:
-            if re.search("^\d?[ก-ฮ\d]{1,2}[\s-]\d{1,4}$", detection[1]) != None:
+            if re.search("^\d?[ก-ฮ\d]{1,2}[\W-]\d{1,4}$", detection[1]) != None:
                 results[0] = detection[1]
             elif re.search("^\d{1,4}$", detection[1]) != None:
                 #insert last
