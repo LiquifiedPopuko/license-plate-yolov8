@@ -1,38 +1,58 @@
-from ultralytics import YOLO
+import numpy as np
 import cv2
 import util
-import numpy as np
+from ultralytics import YOLO
 
-#load models
+cap = cv2.VideoCapture(0)
+
+# load models
+print("Loading Model...")
 model_path = './model_testing/license_detector.pt'
 model = YOLO(model_path)  # pretrained YOLOv8n model
-
-#load video (img for now)
-#read frames
-#detect license plates
-img = cv2.imread('./model_testing/IMG_test2.jpg')
-#img = './model_testing/IMG_test.jpg'
-detections = model(img)
+print("Loading Model - Done")
+print("Start recording")
 
 results_path = './results/'
-i = 0
 
-#detections[0] is TEMPorary
-#license plate detection and crop
-for detection in detections[0].boxes.data.tolist():
-    x1, y1, x2, y2, score, class_id = detection
+while (True):
+    # Capture frame-by-frame
+    ret, frame = cap.read()
 
-    #crop license plate
-    img_path = results_path + str(i) + '.jpg'
-    i+=1
-    license_plate = img[int(y1):int(y2), int(x1):int(x2), :]
+    # Our operations on the frame come here
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-    #process license plate
-    license_plate = cv2.cvtColor(license_plate, cv2.COLOR_BGR2GRAY)
-    
-    result = util.read_license_plate(license_plate)
-    print(str(result))
-    #save crop
-    cv2.imwrite(img_path, license_plate)
+    # Display the resulting frame
+    cv2.imshow('frame', gray)
 
-#write results
+    # Press Q to detect license plate
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        print("Capturing")
+        i = 0
+        detections = model(frame)
+        for detection in detections[0].boxes.data.tolist():
+            x1, y1, x2, y2, score, class_id = detection
+
+            # crop license plate
+            img_path = results_path + str(i) + '.jpg'
+            i += 1
+            license_plate = frame[int(y1):int(y2), int(x1):int(x2), :]
+
+            # process license plate
+            license_plate = cv2.cvtColor(license_plate, cv2.COLOR_BGR2GRAY)
+
+            result = util.read_license_plate(license_plate)
+            print(str(result))
+            # save crop
+            cv2.imwrite(img_path, license_plate)
+        print("License capture - Done")
+
+    # Press R to quit
+    if cv2.waitKey(1) & 0xFF == ord('r'):
+        print("break")
+        break
+
+print("Closing")
+# When everything done, release the capture
+cap.release()
+cv2.destroyAllWindows()
+print("Closing Done")
