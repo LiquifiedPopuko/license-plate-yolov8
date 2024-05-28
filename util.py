@@ -34,7 +34,7 @@ def read_license_plate(license_plate):
                 #insert front
                 results[0] = detection[1] + results[0]
             else:
-                results[1] = match_province(detection[1])[0]
+                results[1] = match_province(detection[1])
 
    print("Detected:"+str(results))
 
