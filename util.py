@@ -15,38 +15,30 @@ def check_database():
 # read license plate and return license plate results
 def read_license_plate(license_plate):
    detections = reader.readtext(license_plate)
-   results = []
+   results = [' ', None]
 
    print("Detections = "+ str(detections))
 
    # go through each license in case of multiple detections
    for detection in detections:
-
-      print("Detection = "+str(detection))
-      print("Score = "+str(detection[2]))
-      # confidence threshold, skip when less than 70%
-      if 0.7 > float(detection[2]):
-         print("Skip")
-         continue
-
-      # detection[1] is the text result of the detection i.e, "กรุงเทพมหานคร"
-      # verify if license plate is in correct format to avoid mistaking other inputs
-      # if is_license_data(detection[1]):
-      #    results.append(detection[1])
-
-      results.append(detection[1])
+        print("Detection = "+str(detection))
+        print("Score = "+str(detection[2]))
+        # Must NOT have more than 15 characters
+        if len(detection[1]) <= 15:
+            if re.search("^\d?[ก-ฮ\d]{1,2}[\s-]\d{1,4}$", detection[1]) != None:
+                results[0] = detection[1]
+            elif re.search("^\d{1,4}$", detection[1]) != None:
+                #insert last
+                results[0] += detection[1]
+            elif re.search("^\d?[ก-ฮ\d]{2}$",detection[1]) != None:
+                #insert front
+                results[0] = detection[1] + results[0]
+            else:
+                results[1] = match_province(detection[1])[0]
 
    print("Detected:"+str(results))
 
    return results
-
-# check if the string is a license plate
-def is_license_data(license):
-    return re.search("\d?[ก-ฮ\d]{1,2}[\s-]\d{1,4}", license)
-
-# check if the string is province
-def is_province(province):
-    return re.search("[ก-ํ]+", province)
 
 # todo
 def send_detection(license_number, province_id, access_type):
