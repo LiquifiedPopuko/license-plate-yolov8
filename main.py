@@ -1,6 +1,8 @@
 import numpy as np
 import cv2
 import util
+import os
+from datetime import datetime
 from ultralytics import YOLO
 
 cap = cv2.VideoCapture(0)
@@ -12,6 +14,7 @@ model = YOLO(model_path)  # pretrained YOLOv8n model
 print("Loading Model - Done")
 print("Start recording")
 
+predict_path = './runs/detect/predict/'
 results_path = './results/'
 
 while (True):
@@ -28,7 +31,7 @@ while (True):
     if cv2.waitKey(1) & 0xFF == ord('q'):
         print("Capturing")
         i = 0
-        detections = model(frame)
+        detections = model.predict(frame, save=True, show_boxes=True)
         for detection in detections[0].boxes.data.tolist():
             x1, y1, x2, y2, score, class_id = detection
 
@@ -42,6 +45,7 @@ while (True):
 
             result = util.read_license_plate(license_plate)
             print(str(result))
+            os.rename(predict_path+'image0.jpg', predict_path+str(result[0])+datetime.now().strftime("_%Y%m%dT%H%M%S")+'.jpg')
             # save crop
             cv2.imwrite(img_path, license_plate)
         print("License capture - Done")
