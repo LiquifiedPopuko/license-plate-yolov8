@@ -45,7 +45,11 @@ while (True):
 
             result = util.read_license_plate(license_plate)
             print(str(result))
+
+            #rename file
             os.rename(predict_path+'image0.jpg', predict_path+str(result[0])+datetime.now().strftime("_%Y%m%dT%H%M%S")+'.jpg')
+            os.rename(predict_path, './runs/detect/'+datetime.now().strftime("%Y%m%dT%H%M%S"))
+            
             # save crop
             cv2.imwrite(img_path, license_plate)
         print("License capture - Done")
