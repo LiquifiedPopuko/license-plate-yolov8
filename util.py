@@ -13,10 +13,12 @@ url = 'todo.com'
 def process_image(license_plate):
     predict_path = './runs/detect/predict/'
     current_date = datetime.now().strftime("%Y%m%dT%H%M%S")
+    file_name = license_plate+'_'+current_date
     # rename file
-    os.rename(predict_path+'image0.jpg', predict_path+license_plate+'_'+current_date+'.jpg')
+    os.rename(predict_path+'image0.jpg', predict_path+file_name+'.jpg')
     # rename folder
-    os.rename(predict_path, './runs/detect/'+current_date)
+    os.rename(predict_path, './runs/detect/'+file_name)
+    return file_name
 
 # todo
 def check_database():
