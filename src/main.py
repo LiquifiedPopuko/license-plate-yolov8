@@ -14,7 +14,7 @@ model = YOLO(model_path)  # pretrained YOLOv8n model
 print("Loading Model - Done")
 print("Start recording")
 
-results_path = './results/'
+results_path = './output/'
 
 while (True):
     # Capture frame-by-frame
