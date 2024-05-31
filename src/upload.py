@@ -11,4 +11,3 @@ def upload_image(file):
    # Opt : if you want to make public access from the URL
    blob.make_public()
    return blob.public_url
-
