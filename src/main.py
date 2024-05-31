@@ -9,7 +9,7 @@ cap = cv2.VideoCapture(0)
 
 # load models
 print("Loading Model...")
-model_path = './model_testing/license_detector.pt'
+model_path = './model/license_detector.pt'
 model = YOLO(model_path)  # pretrained YOLOv8n model
 print("Loading Model - Done")
 print("Start recording")
