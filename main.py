@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import util
+import upload
 import os
 from datetime import datetime
 from ultralytics import YOLO
@@ -46,7 +47,10 @@ while (True):
             print(str(result))
             
             # rename file & folder to proper format
-            util.process_image(result[0])
+            file_name = util.process_image(result[0])
+
+            # upload file to firebase storage
+            print(upload.upload_image(file_name))
 
             # save crop
             cv2.imwrite(img_path, license_plate)
