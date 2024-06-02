@@ -44,7 +44,8 @@ while (True):
             license_plate = cv2.cvtColor(license_plate, cv2.COLOR_BGR2GRAY)
 
             result = util.read_license_plate(license_plate)
-            print(str(result))
+            # temp
+            print(util.check_license(result[0]))
             
             # rename file & folder to proper format
             file_name = util.process_image(result[0])

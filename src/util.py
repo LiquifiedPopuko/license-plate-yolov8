@@ -4,10 +4,12 @@ from datetime import datetime
 import requests
 import re
 import os
+import csv
 
 # be mindful of gpu
 reader = easyocr.Reader(['th'], gpu=False)
 url = 'todo.com'
+license_data = csv.reader(open('./license/hi.csv'), delimiter=',')
 
 # change file name and folder
 def process_image(license_plate):
@@ -20,9 +22,13 @@ def process_image(license_plate):
     os.rename(predict_path, './runs/detect/'+file_name)
     return file_name
 
-# todo
-def check_database():
-   return
+# check license plate data
+def check_license(license_plate):
+    for license in license_data:
+        print("comparing: "+license[3]+' to '+license_plate)
+        if license[3] == license_plate:
+            return True
+    return False
 
 # read license plate and return license plate results
 def read_license_plate(license_plate):
