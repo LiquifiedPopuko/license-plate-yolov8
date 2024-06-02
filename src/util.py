@@ -33,7 +33,13 @@ def read_license_plate(license_plate):
 
    # go through each license in case of multiple detections
    for detection in detections:
+        
+        # temp fix
+        detection[1].replace('ฺ',"")
+        detection[1].replace('.'," ")
+
         print("Detection = "+str(detection))
+        print("Detection 2 = "+str(detection[1]))
         print("Score = "+str(detection[2]))
         # Must NOT have more than 15 characters
         if len(detection[1]) <= 15:
