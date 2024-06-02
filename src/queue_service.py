@@ -26,14 +26,6 @@ def license_access_worker():
 # Turn-on the worker thread.
 Thread(target=license_access_worker, daemon=True).start()
 
-# Send thirty task requests to the worker.
-q.put({
-   "license_id": 60,
-   "access_date": "2024-06-20 18:45:54",
-   "access_type": 2,
-   "image_source": "https://storage.googleapis.com/smart-parking-21e9b.appspot.com/images/%E0%B8%82%E0%B8%97%209515_20240531T205019.jpg"
-})
-
 # Block until all tasks are done.
 q.join()
 print('All work completed')
