@@ -12,11 +12,10 @@ url = 'todo.com'
 license_data = csv.reader(open('./license/license_plate_data.csv'), delimiter=',')
 
 # change file name and folder
-def process_image(license_plate):
+def process_image(license_plate, current_date):
     # path is changed for linux
     predict_path = '/home/orangepi/.pyenv/runs/detect/predict/'
-    current_date = datetime.now().strftime("%Y%m%dT%H%M%S")
-    # license_plate = license_plate.replace(" ","_")
+    current_date = datetime.strptime(current_date, '%Y-%m-%d %H:%M:%S').strftime("%Y%m%dT%H%M%S")
     file_name = license_plate+'_'+current_date
     # rename file
     os.rename(predict_path+'image0.jpg', predict_path+file_name+'.jpg')
