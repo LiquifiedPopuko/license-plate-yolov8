@@ -23,9 +23,19 @@ def license_access_worker():
          logging.info('Successful load: %s', load)
       q.task_done()
 
+# this function check if the thread is alive before adding new queue
+def add_queue(load):
+   if queue_worker.is_alive():
+      print("Add queue")
+      q.put(load)
+   else:
+      print("Refresh/respawn thread")
+      queue_worker.start()
+
 # Turn-on the worker thread.
-Thread(target=license_access_worker, daemon=True).start()
+queue_worker = Thread(target=license_access_worker, daemon=True)
 
 # Block until all tasks are done.
 q.join()
-print('All work completed')
+print('All work completed, close thread')
+queue_worker.is_alive()
