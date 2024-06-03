@@ -2,7 +2,7 @@ from firebase_admin import credentials, initialize_app, storage
 # Init firebase with your credentials
 cred = credentials.Certificate("./module/smart-parking-21e9b-firebase-adminsdk-cmymm-d701fc4c06.json")
 app = initialize_app(cred, {'storageBucket': 'smart-parking-21e9b.appspot.com'})
-file_path = "./runs/detect/"
+file_path = '/home/orangepi/.pyenv/runs/detect/'
 
 # Put your local file path 
 def upload_image(file):
