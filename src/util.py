@@ -24,16 +24,13 @@ def process_image(license_plate):
 
 # check license plate data
 def check_license(license_plate):
+    license_id = 63
     for license in license_data:
         print("comparing: "+license[3]+' to '+license_plate)
         if license[3] == license_plate:
-            return True
-    return False
-
-
-def get_license_id():
-    license_id = 
-    return license_id
+            license_id = license[0]
+            return (True, )
+    return (False, license_id)
 
 # read license plate and return license plate results
 def read_license_plate(license_plate):
