@@ -30,6 +30,11 @@ def check_license(license_plate):
             return True
     return False
 
+
+def get_license_id():
+    license_id = 
+    return license_id
+
 # read license plate and return license plate results
 def read_license_plate(license_plate):
    detections = reader.readtext(license_plate)
