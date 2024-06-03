@@ -7,7 +7,7 @@ from datetime import datetime
 from ultralytics import YOLO
 import queue_service
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(11)
 
 # load models
 print("Loading Model...")
