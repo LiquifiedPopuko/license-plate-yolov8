@@ -5,6 +5,7 @@ import upload
 import os
 from datetime import datetime
 from ultralytics import YOLO
+import queue_service
 
 cap = cv2.VideoCapture(0)
 
@@ -35,6 +36,13 @@ while (True):
         for detection in detections[0].boxes.data.tolist():
             x1, y1, x2, y2, score, class_id = detection
 
+            access_history = {
+                "license_id": None, 
+                "access_date": None, 
+                "access_type": None, 
+                "image_source": None
+            }
+
             # crop license plate
             img_path = results_path + str(i) + '.jpg'
             i += 1
@@ -51,7 +59,10 @@ while (True):
             file_name = util.process_image(result[0])
 
             # upload file to firebase storage
+            access_history["image_source"] = upload.upload_image(file_name)
             print(upload.upload_image(file_name))
+
+            queue_service.add_queue(access_history)
 
             # save crop
             cv2.imwrite(img_path, license_plate)
