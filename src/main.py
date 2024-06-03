@@ -42,6 +42,10 @@ while (True):
                 "access_type": None, 
                 "image_source": None
             }
+            
+            access_history["access_type"] = 2
+            access_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            access_history["access_date"] = access_date
 
             # crop license plate
             img_path = results_path + str(i) + '.jpg'
@@ -53,17 +57,19 @@ while (True):
 
             result = util.read_license_plate(license_plate)
             # temp
-            print(util.check_license(result[0]))
+            license_scan = util.check_license(result[0])
+            print(license_scan[0])
+            access_history["license_id"] = license_scan[1]
             
             # rename file & folder to proper format
-            file_name = util.process_image(result[0])
+            file_name = util.process_image(result[0], access_date)
 
             # upload file to firebase storage
             access_history["image_source"] = upload.upload_image(file_name)
             print(upload.upload_image(file_name))
 
             queue_service.add_queue(access_history)
-
+            
             # save crop
             cv2.imwrite(img_path, license_plate)
         print("License capture - Done")
