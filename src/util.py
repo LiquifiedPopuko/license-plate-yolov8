@@ -30,7 +30,7 @@ def check_license(license_plate):
         print("comparing: "+license[3]+' to '+license_plate)
         if license[3] == license_plate:
             license_id = license[0]
-            return (True, )
+            return (True, license_id)
     return (False, license_id)
 
 # read license plate and return license plate results
