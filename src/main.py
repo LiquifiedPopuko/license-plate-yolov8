@@ -3,6 +3,7 @@ import cv2
 import util
 import upload
 import os
+import display
 from datetime import datetime
 from ultralytics import YOLO
 import queue_service
@@ -20,13 +21,22 @@ results_path = './output/'
 
 while (True):
     # Capture frame-by-frame
-    ret, frame = cap.read()
+    ret1, frame = cap.read()
+    image = display.get_state_image()
 
+    img_height = 50
+    img_width = 50
+    image = cv2.resize(image, (img_width,img_height))
     # Our operations on the frame come here
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     # Display the resulting frame
-    cv2.imshow('frame', gray)
+    frame[0:img_width, 0:img_height] = image
+    cv2.imshow('Main', frame)
+
+    # Press Q to detect license plate
+    if cv2.waitKey(1) & 0xFF == ord('z'):
+        display.set_access_image_state(True)
 
     # Press Q to detect license plate
     if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -56,9 +66,14 @@ while (True):
             license_plate = cv2.cvtColor(license_plate, cv2.COLOR_BGR2GRAY)
 
             result = util.read_license_plate(license_plate)
+
+            # join image
+
             # temp
             license_scan = util.check_license(result[0])
             print(license_scan[0])
+            print("setting image stage")
+            display.set_access_image_state(license_scan[0])
             access_history["license_id"] = license_scan[1]
             
             # rename file & folder to proper format
