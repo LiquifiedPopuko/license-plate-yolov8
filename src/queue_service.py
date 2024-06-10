@@ -31,6 +31,7 @@ def add_queue(load):
    else:
       print("Refresh/respawn thread")
       queue_worker.start()
+      q.put(load)
 
 # Turn-on the worker thread.
 queue_worker = Thread(target=license_access_worker, daemon=True)
