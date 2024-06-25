@@ -40,6 +40,7 @@ while (True):
 
     # Press Q to detect license plate
     if cv2.waitKey(1) & 0xFF == ord('q'):
+        start_time = datetime.now() 
         print("Capturing")
         i = 0
         detections = model.predict(frame, save=True, show_boxes=True)
@@ -67,8 +68,6 @@ while (True):
 
             result = util.read_license_plate(license_plate)
 
-            # join image
-
             # temp
             license_scan = util.check_license(result[0])
             print(license_scan[0])
@@ -87,6 +86,10 @@ while (True):
             
             # save crop
             cv2.imwrite(img_path, license_plate)
+
+        end_time = datetime.now()
+        time_difference = (end_time - start_time).total_seconds() * 10**3
+        print("Execution time of capture is: ", time_difference, "ms") 
         print("License capture - Done")
 
     # Press R to quit

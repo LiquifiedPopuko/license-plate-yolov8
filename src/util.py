@@ -35,6 +35,8 @@ def check_license(license_plate):
 
 # read license plate and return license plate results
 def read_license_plate(license_plate):
+   
+   start_time = datetime.now() 
    detections = reader.readtext(license_plate)
    results = [' ', None]
 
@@ -64,6 +66,10 @@ def read_license_plate(license_plate):
                 results[1] = match_province(detection[1])
 
    print("Detected:"+str(results))
+
+   end_time = datetime.now()
+   time_difference = (end_time - start_time).total_seconds() * 10**3
+   print("Execution time of ocr is: ", time_difference, "ms") 
    return results
 
 # todo
